@@ -1,0 +1,13 @@
+# k8s_traceable_service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: traceable-service
+spec:
+  selector:
+    app: traceable-container
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081

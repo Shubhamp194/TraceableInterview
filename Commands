@@ -1,0 +1,17 @@
+docker run -dit -p 8081:8081  -e MYSQL_PASSWORD=Password --name traceable-container traceable-image
+
+docker build -t traceable-image .
+
+docker network create traceable-network
+
+docker run -d --name mysql-container --network traceable-network -e MYSQL_ROOT_PASSWORD=Password mysql:latest
+
+docker run -dit -p 8081:8081 -e MYSQL_PASSWORD=Password --name traceable-container --network traceable-network traceable-image
+
+kubectl apply -f k8s_mysql_deployment.yaml
+kubectl apply -f k8s_mysql_pvc.yaml
+kubectl apply -f k8s_traceable_deployment.yaml
+
+
+kubectl apply -f k8s_mysql_service.yaml
+kubectl apply -f k8s_traceable_service.yaml

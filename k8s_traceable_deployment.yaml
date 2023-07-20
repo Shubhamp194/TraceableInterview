@@ -1,0 +1,24 @@
+# k8s_traceable_deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traceable-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traceable-container
+  template:
+    metadata:
+      labels:
+        app: traceable-container
+    spec:
+      containers:
+        - name: traceable-container
+          image: traceable-image
+          ports:
+            - containerPort: 8081
+          env:
+            - name: MYSQL_PASSWORD
+              value: "Password"

@@ -1,0 +1,33 @@
+# k8s_mysql_deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-container
+  template:
+    metadata:
+      labels:
+        app: mysql-container
+    spec:
+      containers:
+        - name: mysql-container
+          image: mysql
+          env:
+            - name: MYSQL_DATABASE
+              value: "Traceable"
+            - name: MYSQL_ROOT_PASSWORD
+              value: "Password"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: traceable-db
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: traceable-db
+          persistentVolumeClaim:
+            claimName: traceable-db-pvc
